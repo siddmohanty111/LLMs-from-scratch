@@ -4,6 +4,7 @@ A file containing all stochastic activation functions to be used in thesis exper
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 import random
 
 r = random.Random()
@@ -19,7 +20,7 @@ class StReLU(nn.Module):
 
     def forward(self, x, switch_proba = 0.5):
         if r.uniform(0, 1) < switch_proba:
-            return nn.ReLU(x)
+            return F.relu(x)
         else:
             return x * (x < 0)
         
@@ -54,4 +55,11 @@ class Stigmoid(nn.Module):
         if r.uniform(0, 1) < proba:
             return torch.sigmoid(x)
         else:
-            return nn.Hardsigmoid().forward(x)
+            return F.hardsigmoid(x)
+        
+class NMStigmoid(nn.Module):
+    """
+    Non-monotonic Stochastic Sigmoid activation function that switches between classic sigmoid and a non-monotonic variant to increase expressivity.
+    """
+    #TODO
+    pass
