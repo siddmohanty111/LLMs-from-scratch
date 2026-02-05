@@ -23,3 +23,35 @@ class StReLU(nn.Module):
         else:
             return x * (x < 0)
         
+class StRoot(nn.Module):
+    """
+    Stochastic activation function based on nth root
+    """
+    def __init__(self, n : int = 2, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if (n % 1 != 0) or (n < 1): # If passed n is not a positive integer, default to 2 
+            n = 2
+        self.n = n
+
+    # switch between nth root and nth power
+    def forward(self, x, proba=0.5):
+        if r.uniform(0, 1) < proba:
+            return torch.sign(x) * torch.abs(x) ** (1 / self.n) # allows even roots of negative numbers (mapping to real numbers)
+        else:
+            return x ** self.n
+        
+class Stigmoid(nn.Module):
+    """
+    Stochastic activation function that switches between classic sigmoid and the more computationally efficient hard sigmoid.
+
+    This is inspired by the Stochastic activation function paper from meta fair (https://arxiv.org/pdf/2509.22358) where 
+    the authors switch between ReLU and SiLU
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def forward(self, x, proba=0.5):
+        if r.uniform(0, 1) < proba:
+            return torch.sigmoid(x)
+        else:
+            return nn.Hardsigmoid().forward(x)
