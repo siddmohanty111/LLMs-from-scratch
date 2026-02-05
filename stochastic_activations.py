@@ -72,3 +72,4 @@ class Bump(nn.Module):
 
 # - run tests with all activation funcs
 # - keep track of hyperparameters (learning rate, using batch norm or not, res stream or not, num heads, etc.) and runtime in a table
+# - create new github
