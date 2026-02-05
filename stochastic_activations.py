@@ -63,3 +63,12 @@ class NMStigmoid(nn.Module):
     """
     #TODO
     pass
+
+class Bump(nn.Module):
+    # TODO
+    pass
+
+# TODO
+
+# - run tests with all activation funcs
+# - keep track of hyperparameters (learning rate, using batch norm or not, res stream or not, num heads, etc.) and runtime in a table
